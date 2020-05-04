@@ -15,13 +15,13 @@ test("loads and displays sign-up form", async () => {
 });
 
 test("sign-up form's checks for Email", async () => {
-  emailChecks(<UserSignUpContainer />);
+  await emailChecks(<UserSignUpContainer />);
 });
 
 test("sign-up form's checks for Password", async () => {
-  passwordChecks(<UserSignUpContainer />);
+  await passwordChecks(<UserSignUpContainer />);
 });
 
 test("sign-up form's checks for Name", async () => {
-  nameChecks(<UserSignUpContainer />);
+  await nameChecks(<UserSignUpContainer />);
 });
