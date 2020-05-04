@@ -1,0 +1,8 @@
+/target/
+/.idea/
+/.gradle/
+/build/
+.project
+.classpath
+.settings
+e2e-tests.iml
