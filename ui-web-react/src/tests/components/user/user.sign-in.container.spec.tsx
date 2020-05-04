@@ -14,9 +14,9 @@ test("loads and displays sign-in", async () => {
 });
 
 test("sign-in form's checks for Email", async () => {
-  emailChecks(<UserSignInContainer />);
+  await emailChecks(<UserSignInContainer />);
 });
 
 test("sign-in form's checks for Password", async () => {
-  passwordChecks(<UserSignInContainer />);
+  await passwordChecks(<UserSignInContainer />);
 });

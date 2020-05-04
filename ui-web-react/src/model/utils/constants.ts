@@ -1,5 +1,5 @@
 import Optional from "optional-js";
-import v1 from "uuid/v1";
+import { v1 as uuidv1 } from 'uuid';
 
 export const DEFAULT_ID = -1;
 export const DEFAULT_UUID = "DEFAULT_UUID";
@@ -33,7 +33,7 @@ export const getNextAlertID = (): number => {
 }
 
 export const generateUUID = (): string => {
-  return v1();
+  return uuidv1();
 }
 
 export const isProdEnvironment = (): boolean => {
