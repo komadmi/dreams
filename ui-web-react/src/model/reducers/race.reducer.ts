@@ -4,7 +4,7 @@ import {
   RacerProfile,
   INITIAL_RACES,
   INITIAL_SELECTED_RACE,
-  RacerResults
+  RacerResults,
 } from "../types/datatypes";
 import Optional from "optional-js";
 import {
@@ -15,145 +15,179 @@ import {
   SELECTED_RACE_LOADED,
   SelectedRaceLoadedAction,
   RACES_REQUEST_FAILED,
-  SELECTED_RACE_REQUEST_FAILED
+  SELECTED_RACE_REQUEST_FAILED,
 } from "../actions/race.actions";
 import { AnyAction } from "redux";
-import { LoggingService } from "../utils/logging-service";
 import {
   RACE_PARTICIPANTS_UPDATE_REQUESTED,
   RACE_PARTICIPANTS_UPDATED,
   RaceParticipantsAction,
-  RACE_PARTICIPANTS_UPDATE_FAILED
+  RACE_PARTICIPANTS_UPDATE_FAILED,
 } from "../actions/race.participants.actions";
-import {
-  RACE_CHANGE_STATE_SUCCESS,
-  RaceChangeStateAction
-} from "../actions/race.state.actions";
+import { RACE_CHANGE_STATE_SUCCESS, RaceChangeStateAction } from "../actions/race.state.actions";
 import {
   RACE_RESULTS_SUBSCRIPTION_STARTED,
   RACE_RESULTS_SUBSCRIPTION_DATA_RECEIVED,
   RACE_RESULTS_SUBSCRIPTION_STOPPED,
   RACE_RESULTS_SUBSCRIPTION_FAILED,
-  RaceResultsSubscriptionDataAction
+  RaceResultsSubscriptionDataAction,
 } from "../actions/race.results.actions";
+import { ReducerTransformerFn } from "./reducers";
 
-export function racesReducer(state: Races = INITIAL_RACES, action: AnyAction) {
-  LoggingService.getInstance().logReducer(action, state);
-  switch (action.type) {
-    case RACES_REQUESTED:
-      return {
-        isFetching: true,
-        items: INITIAL_RACES.items
-      };
-    case RACES_LOADED:
-      return {
-        isFetching: false,
-        items: (action as RacesLoadedAction).items
-      };
-    case RACES_REQUEST_FAILED:
-      return {
-        ...state,
-        isFetching: false
-      };
-    case RACE_CHANGE_STATE_SUCCESS:
-      state.items.ifPresent(races => {
-        const raceAction = action as RaceChangeStateAction;
-        for (let race of races) {
-          if (race.id === raceAction.raceID) {
-            race.state = raceAction.state;
-            return state;
-          }
-        }
-      });
-      return state;
-    default:
-      return state;
-  }
+const racesTransformers: Map<any, ReducerTransformerFn<Races>> = new Map<
+  any,
+  ReducerTransformerFn<Races>
+>()
+  .set(RACES_REQUESTED, transformRacesRequested)
+  .set(RACES_LOADED, transformRacesLoaded)
+  .set(RACES_REQUEST_FAILED, transformRacesRequestFailed)
+  .set(RACE_CHANGE_STATE_SUCCESS, transformRaceChangeStateSuccess);
+
+function transformRacesRequested(state: Races, action: AnyAction) {
+  return {
+    isFetching: true,
+    items: INITIAL_RACES.items,
+  };
 }
 
-export function selectedRaceReducer(
-  state: RaceItemExt = INITIAL_SELECTED_RACE,
-  action: AnyAction
-) {
-  LoggingService.getInstance().logReducer(action, state);
-  switch (action.type) {
-    case SELECTED_RACE_REQUESTED:
-      return {
-        ...state,
-        isFetching: true
-      };
-    case SELECTED_RACE_REQUEST_FAILED:
-      return {
-        ...state,
-        isFetching: false
-      };
-    case SELECTED_RACE_LOADED:
-      return {
-        ...(action as SelectedRaceLoadedAction).raceItemExt,
-        isFetching: false
-      };
-    case RACE_PARTICIPANTS_UPDATE_REQUESTED:
-      return {
-        ...state,
-        participants: {
-          ...state.participants,
-          isFetching: true
-        }
-      };
-    case RACE_PARTICIPANTS_UPDATED:
-      return {
-        ...state,
-        participants: {
-          isFetching: false,
-          items: processRaceParticipants(
-            state.participants.items,
-            action as RaceParticipantsAction
-          )
-        }
-      };
-    case RACE_PARTICIPANTS_UPDATE_FAILED:
-      return {
-        ...state,
-        participants: {
-          ...state.participants,
-          isFetching: false
-        }
-      };
-    case RACE_CHANGE_STATE_SUCCESS:
-      const raceAction = action as RaceChangeStateAction;
-      if (state.id !== raceAction.raceID) return state;
-      return {
-        ...state,
-        state: raceAction.state
-      };
-    case RACE_RESULTS_SUBSCRIPTION_STARTED:
-    case RACE_RESULTS_SUBSCRIPTION_DATA_RECEIVED:
-      return {
-        ...state,
-        results: {
-          isFetching: true,
-          items:
-            action.type === RACE_RESULTS_SUBSCRIPTION_STARTED
-              ? Optional.empty<RacerResults[]>()
-              : (action as RaceResultsSubscriptionDataAction).data
-        }
-      };
-    case RACE_RESULTS_SUBSCRIPTION_STOPPED:
-    case RACE_RESULTS_SUBSCRIPTION_FAILED:
-      return {
-        ...state,
-        results: {
-          ...state.results,
-          isFetching: false,
-          items:
-            action.type === RACE_RESULTS_SUBSCRIPTION_FAILED
-              ? Optional.empty<RacerResults[]>()
-              : state.results.items
-        }
-      };
-    default:
-      return state;
-  }
+function transformRacesLoaded(state: Races, action: AnyAction) {
+  return {
+    isFetching: false,
+    items: (action as RacesLoadedAction).items,
+  };
+}
+
+function transformRacesRequestFailed(state: Races, action: AnyAction) {
+  return {
+    ...state,
+    isFetching: false,
+  };
+}
+
+function transformRaceChangeStateSuccess(state: Races, action: AnyAction) {
+  state.items.ifPresent((races) => {
+    const raceAction = action as RaceChangeStateAction;
+    for (let race of races) {
+      if (race.id === raceAction.raceID) {
+        race.state = raceAction.state;
+        return state;
+      }
+    }
+  });
+  return state;
+}
+
+const selectedRaceTransformers: Map<any, ReducerTransformerFn<RaceItemExt>> = new Map<
+  any,
+  ReducerTransformerFn<RaceItemExt>
+>()
+  .set(SELECTED_RACE_REQUESTED, transformSelectedRaceRequested)
+  .set(SELECTED_RACE_REQUEST_FAILED, transformSelectedRaceRequestFailed)
+  .set(SELECTED_RACE_LOADED, transformSelectedRaceLoaded)
+  .set(RACE_PARTICIPANTS_UPDATE_REQUESTED, transformRaceParticipantsUpdateRequested)
+  .set(RACE_PARTICIPANTS_UPDATED, transformRaceParticipantsUpdated)
+  .set(RACE_PARTICIPANTS_UPDATE_FAILED, transformRaceParticipantsUpdateFailed)
+  .set(RACE_CHANGE_STATE_SUCCESS, transformSelectedRaceChangeStateSuccess)
+  .set(RACE_RESULTS_SUBSCRIPTION_STARTED, transformRaceResultsSubscriptionStarted)
+  .set(RACE_RESULTS_SUBSCRIPTION_DATA_RECEIVED, transformRaceResultsSubscriptionStarted)
+  .set(RACE_RESULTS_SUBSCRIPTION_STOPPED, transformRaceResultsSubscriptionStopped)
+  .set(RACE_RESULTS_SUBSCRIPTION_FAILED, transformRaceResultsSubscriptionStopped);
+
+function transformSelectedRaceRequested(state: RaceItemExt, action: AnyAction) {
+  return {
+    ...state,
+    isFetching: true,
+  };
+}
+
+function transformSelectedRaceRequestFailed(state: RaceItemExt, action: AnyAction) {
+  return {
+    ...state,
+    isFetching: false,
+  };
+}
+
+function transformSelectedRaceLoaded(state: RaceItemExt, action: AnyAction) {
+  return {
+    ...(action as SelectedRaceLoadedAction).raceItemExt,
+    isFetching: false,
+  };
+}
+
+function transformRaceParticipantsUpdateRequested(state: RaceItemExt, action: AnyAction) {
+  return {
+    ...state,
+    participants: {
+      ...state.participants,
+      isFetching: true,
+    },
+  };
+}
+
+function transformRaceParticipantsUpdated(state: RaceItemExt, action: AnyAction) {
+  return {
+    ...state,
+    participants: {
+      isFetching: false,
+      items: processRaceParticipants(state.participants.items, action as RaceParticipantsAction),
+    },
+  };
+}
+
+function transformRaceParticipantsUpdateFailed(state: RaceItemExt, action: AnyAction) {
+  return {
+    ...state,
+    participants: {
+      ...state.participants,
+      isFetching: false,
+    },
+  };
+}
+
+function transformSelectedRaceChangeStateSuccess(state: RaceItemExt, action: AnyAction) {
+  const raceAction = action as RaceChangeStateAction;
+  if (state.id !== raceAction.raceID) return state;
+  return {
+    ...state,
+    state: raceAction.state,
+  };
+}
+
+function transformRaceResultsSubscriptionStarted(state: RaceItemExt, action: AnyAction) {
+  return {
+    ...state,
+    results: {
+      isFetching: true,
+      items:
+        action.type === RACE_RESULTS_SUBSCRIPTION_STARTED
+          ? Optional.empty<RacerResults[]>()
+          : (action as RaceResultsSubscriptionDataAction).data,
+    },
+  };
+}
+
+function transformRaceResultsSubscriptionStopped(state: RaceItemExt, action: AnyAction) {
+  return {
+    ...state,
+    results: {
+      ...state.results,
+      isFetching: false,
+      items:
+        action.type === RACE_RESULTS_SUBSCRIPTION_FAILED
+          ? Optional.empty<RacerResults[]>()
+          : state.results.items,
+    },
+  };
+}
+
+export function racesReducer(state: Races = INITIAL_RACES, action: AnyAction) {
+  const transformer = racesTransformers.get(action.type);
+  return !!transformer ? transformer(state, action) : state;
+}
+
+export function selectedRaceReducer(state: RaceItemExt = INITIAL_SELECTED_RACE, action: AnyAction) {
+  const transformer = selectedRaceTransformers.get(action.type);
+  return !!transformer ? transformer(state, action) : state;
 }
 
 function processRaceParticipants(
@@ -163,11 +197,7 @@ function processRaceParticipants(
   const removed = action.itemsRemoved.orElse([]);
 
   let items = currentItems.orElse([]);
-  items = items.filter(
-    item => removed.find(curr => item.uuid === curr.uuid) === undefined
-  );
+  items = items.filter((item) => removed.find((curr) => item.uuid === curr.uuid) === undefined);
   items = items.concat(action.itemsAdded.orElse([]));
-  return items.length === 0
-    ? Optional.empty<RacerProfile[]>()
-    : Optional.of(items);
+  return items.length === 0 ? Optional.empty<RacerProfile[]>() : Optional.of(items);
 }
