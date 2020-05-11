@@ -1,4 +1,4 @@
-import { combineReducers } from "redux";
+import { combineReducers, AnyAction } from "redux";
 import { StoredState } from "../types/datatypes";
 import { userReducer } from "./user.reducer";
 import { racesReducer, selectedRaceReducer } from "./race.reducer";
@@ -10,7 +10,19 @@ const raceLogAppState = combineReducers<StoredState>({
   racerProfiles: racerProfilesReducer,
   races: racesReducer,
   selectedRace: selectedRaceReducer,
-  alertsQueue: alertsQueueReducer
+  alertsQueue: alertsQueueReducer,
 });
 
 export default raceLogAppState;
+
+export type ReducerTransformerFn<T> = (state: T, action: AnyAction) => T;
+
+export function createReducer<T>(
+  transformersMap: Map<any, ReducerTransformerFn<T>>,
+  initialState: T
+) {
+  return (state: T = initialState, action: AnyAction) => {
+    const transformer = transformersMap.get(action.type);
+    return !!transformer ? transformer(state, action) : state;
+  };
+}

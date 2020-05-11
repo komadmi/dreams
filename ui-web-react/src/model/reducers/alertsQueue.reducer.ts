@@ -1,22 +1,25 @@
 import { AlertsQueue, Alert, INITIAL_ALERTS_QUEUE } from "../types/datatypes";
 import { AnyAction } from "redux";
-import { LoggingService } from "../utils/logging-service";
 import { ALERTS_SHOW, ALERTS_HIDE, AlertsAction } from "../actions/alerts.actions";
+import { ReducerTransformerFn } from "./reducers";
 
-export function alertsQueueReducer(state: AlertsQueue = INITIAL_ALERTS_QUEUE, action: AnyAction) {
-  LoggingService.getInstance().logReducer(action, state);
-  switch (action.type) {
-    case ALERTS_SHOW:
-      return {
-        alerts: changeAlertsQueue(state.alerts, (action as AlertsAction).alert, true)
-      };
-    case ALERTS_HIDE:
-      return {
-        alerts: changeAlertsQueue(state.alerts, (action as AlertsAction).alert, false)
-      };
-    default:
-      return state;
-  }
+const alertsQueueTransformers: Map<any, ReducerTransformerFn<AlertsQueue>> = new Map<
+  any,
+  ReducerTransformerFn<AlertsQueue>
+>()
+  .set(ALERTS_SHOW, transformAlertShow)
+  .set(ALERTS_HIDE, transformAlertHide);
+
+function transformAlertShow(state: AlertsQueue, action: AnyAction) {
+  return {
+    alerts: changeAlertsQueue(state.alerts, (action as AlertsAction).alert, true),
+  };
+}
+
+function transformAlertHide(state: AlertsQueue, action: AnyAction) {
+  return {
+    alerts: changeAlertsQueue(state.alerts, (action as AlertsAction).alert, false),
+  };
 }
 
 function changeAlertsQueue(queue: Alert[], alert: Alert, add: boolean): Alert[] {
@@ -34,4 +37,9 @@ function changeAlertsQueue(queue: Alert[], alert: Alert, add: boolean): Alert[] 
     }
   }
   return queue;
+}
+
+export function alertsQueueReducer(state: AlertsQueue = INITIAL_ALERTS_QUEUE, action: AnyAction) {
+  const transformer = alertsQueueTransformers.get(action.type);
+  return !!transformer ? transformer(state, action) : state;
 }
