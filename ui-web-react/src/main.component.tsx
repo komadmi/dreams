@@ -1,5 +1,5 @@
 import React from "react";
-import HeaderContainer from "./components/header/header.container";
+import HeaderComponent from "./components/header/header.component";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import HomeComponent from "./components/home/home.component";
 import {
@@ -7,7 +7,7 @@ import {
   RACES_INFO,
   USER_PROFILE,
   USER_SIGN_IN,
-  USER_SIGN_UP
+  USER_SIGN_UP,
 } from "./model/routing/paths";
 import RaceInfoContainer from "./components/races/race-info.container";
 import Optional from "optional-js";
@@ -45,7 +45,7 @@ export class MainComponent extends React.Component<MainComponentProps> {
   render() {
     return (
       <Router>
-        <HeaderContainer />
+        <HeaderComponent />
         <AlertContainer />
         <div>
           <Route exact path={DEFAULT} component={HomeComponent} />

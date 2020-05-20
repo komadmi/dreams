@@ -1,6 +1,4 @@
 import React, { useState } from "react";
-import { UserInfo } from "../../model/types/datatypes";
-import Optional from "optional-js";
 import { DEFAULT, USER_SIGN_IN, USER_PROFILE } from "../../model/routing/paths";
 import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
@@ -27,29 +25,28 @@ import {
   LIST_ITEM_HOME_BUTTON,
   LIST_ITEM_ACCOUNT_BUTTON,
   LIST_ITEM_ENTER_BUTTON,
-  HEADER_MENU_BUTTON
+  HEADER_MENU_BUTTON,
 } from "../../model/utils/constants";
+import { userInfoSelector } from "../../model/types/selectors";
+import { useSelector } from "react-redux";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
-    flexGrow: 1
+    flexGrow: 1,
   },
   title: {
-    flexGrow: 1
+    flexGrow: 1,
   },
   menuButton: {
-    marginRight: theme.spacing(2)
+    marginRight: theme.spacing(2),
   },
   list: {
-    width: 250
-  }
+    width: 250,
+  },
 }));
 
-export type HeaderComponentProps = {
-  userInfo: Optional<UserInfo>;
-};
-
-const HeaderComponent: React.FC<HeaderComponentProps> = (props: HeaderComponentProps) => {
+const HeaderComponent: React.FC = () => {
+  const userInfo = useSelector(userInfoSelector);
   const classes = useStyles();
   const history = useHistory();
   const reRouteTo = (path: string): void => history.push(path);
@@ -88,8 +85,8 @@ const HeaderComponent: React.FC<HeaderComponentProps> = (props: HeaderComponentP
             primaryTypographyProps={{ id: LIST_ITEM_HOME_BUTTON + "_label" }}
           />
         </ListItem>
-        {props.userInfo
-          .map(info => (
+        {userInfo
+          .map((info) => (
             <ListItem
               id={LIST_ITEM_ACCOUNT_BUTTON}
               button
@@ -145,8 +142,8 @@ const HeaderComponent: React.FC<HeaderComponentProps> = (props: HeaderComponentP
           <Typography variant="h6" className={classes.title}>
             RaceLog3
           </Typography>
-          {props.userInfo
-            .map(info => (
+          {userInfo
+            .map((info) => (
               <Tooltip title={`${info.name} (${getRoleName(info.role)}, ${info.email})`}>
                 <IconButton
                   id={HEADER_ACCOUNT_BUTTON}
