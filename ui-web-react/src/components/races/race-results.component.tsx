@@ -83,8 +83,8 @@ class RaceResultsComponent extends React.Component<RaceResultsProps> {
         >
           <Typography id={RACE_RESULTS_HEADER} className={classes.heading}>
             {this.props.disableReason
-              .map(reason => `Результаты недоступны. ${reason}`)
-              .orElse("Результаты")}
+              .map(reason => `Result are not available. ${reason}`)
+              .orElse("Results")}
           </Typography>
         </ExpansionPanelSummary>
         <ExpansionPanelDetails>
@@ -93,11 +93,11 @@ class RaceResultsComponent extends React.Component<RaceResultsProps> {
               <TableHead>
                 <TableRow>
                   <TableCell>#</TableCell>
-                  <TableCell>ФИО</TableCell>
-                  <TableCell>Номер</TableCell>
-                  <TableCell>Время</TableCell>
-                  <TableCell>Круги</TableCell>
-                  <TableCell>Очки</TableCell>
+                  <TableCell>Name</TableCell>
+                  <TableCell>Number</TableCell>
+                  <TableCell>Time</TableCell>
+                  <TableCell>Laps</TableCell>
+                  <TableCell>Score</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>

@@ -9,12 +9,12 @@
   "author": "Dmitry Komarov",
   "license": "ISC",
   "dependencies": {
-    "body-parser": "^1.19.0",
-    "express": "^4.17.1",
-    "logzio-nodejs": "^1.0.7",
-    "node-fetch": "^2.6.0"
+    "body-parser": "1.19.0",
+    "express": "4.17.1",
+    "logzio-nodejs": "1.0.7",
+    "node-fetch": "2.6.1"
   },
   "devDependencies": {
-    "http-proxy-middleware": "^0.20.0"
+    "http-proxy-middleware": "0.20.0"
   }
 }

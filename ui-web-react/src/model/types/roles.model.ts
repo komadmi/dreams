@@ -7,13 +7,13 @@ export enum Role {
 export function getRoleName(role: Role): string {
   switch (role) {
     case Role.ADMIN:
-      return "Администратор";
+      return "Admin";
     case Role.SUPPORT:
-      return "Тех поддержка";
+      return "Support";
     case Role.USER:
-      return "Пользователь";
+      return "User";
     default:
-      return "Неизвестная роль";
+      return "Unknown";
   }
 }
 

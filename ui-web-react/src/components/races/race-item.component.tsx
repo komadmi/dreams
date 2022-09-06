@@ -65,7 +65,7 @@ const RaceItemComponent: React.FC<RaceItemProps> = (props: RaceItemProps) => {
           size="small"
           onClick={() => reRouteTo(RACES + DELIMITER + props.item.id)}
         >
-          Подробнее
+          Details
         </Button>
       </CardActions>
     </Card>

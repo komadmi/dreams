@@ -103,7 +103,7 @@ const RacerProfilesListComponent: React.FC<RacerProfilesListProps> = (
         aria-controls="racerProfile-content"
         id={RACER_PROFILES_LIST_EXPAND_BUTTON}
       >
-        <Typography className={classes.heading}>Профили гонщика</Typography>
+        <Typography className={classes.heading}>Racer Profile</Typography>
       </ExpansionPanelSummary>
       <ExpansionPanelDetails>
         <Container component="main" maxWidth="xs" className={classes.profileContainer}>
@@ -119,7 +119,7 @@ const RacerProfilesListComponent: React.FC<RacerProfilesListProps> = (
           ))}
           <SpinnerButton
             id={RACER_PROFILES_LIST_SUBMIT_BUTTON}
-            label="Обновить"
+            label="Refresh"
             showSpinner={props.isFetching}
             handleClick={handleProfilesUpdateButtonClick}
           />

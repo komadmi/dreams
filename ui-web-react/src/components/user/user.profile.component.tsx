@@ -103,7 +103,7 @@ const UserProfileComponent: React.FC<UserProfileComponentProps> = (
                   className={classes.logout}
                   onClick={() => props.onLogout(info)}
                 >
-                  Финишировать
+                  Finish
                 </Button>
               </Paper>
               <RacerProfilesListComponent

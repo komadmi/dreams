@@ -20,9 +20,9 @@ const checkContent = (
   fireEvent.click(getByText("Valentino Rossi"));
   fireEvent.click(getByText("valentino.rossi@yamaha.jp"));
   fireEvent.click(getByText(roleHeader));
-  fireEvent.click(getByText("Профили гонщика"));
+  fireEvent.click(getByText("Profiles"));
 
-  const raceManagementHeader = "Управление гонками";
+  const raceManagementHeader = "Race management";
   if (canSeeSpecialContent) {
     fireEvent.click(getByText(raceManagementHeader));
   } else {
@@ -48,7 +48,7 @@ test("loads and displays profile for Admin Role", async () => {
     <UserProfileContainer />,
     storedStateForRole(Role.ADMIN)
   );
-  checkContent(getByText, queryByText, "Администратор", true);
+  checkContent(getByText, queryByText, "Admin", true);
 });
 
 test("loads and displays profile for Supporter Role", async () => {
@@ -56,7 +56,7 @@ test("loads and displays profile for Supporter Role", async () => {
     <UserProfileContainer />,
     storedStateForRole(Role.SUPPORT)
   );
-  checkContent(getByText, queryByText, "Тех поддержка", true);
+  checkContent(getByText, queryByText, "Support", true);
 });
 
 test("loads and displays profile for User Role", async () => {
@@ -64,5 +64,5 @@ test("loads and displays profile for User Role", async () => {
     <UserProfileContainer />,
     storedStateForRole(Role.USER)
   );
-  checkContent(getByText, queryByText, "Пользователь", false);
+  checkContent(getByText, queryByText, "User", false);
 });

@@ -2,9 +2,9 @@ import { getRoleName, Role, canSeeSpecialContent } from "../../../model/types/ro
 
 describe("roles.model", () => {
   it("should return correct human readable names", () => {
-    expect(getRoleName(Role.ADMIN)).toEqual("Администратор");
-    expect(getRoleName(Role.SUPPORT)).toEqual("Тех поддержка");
-    expect(getRoleName(Role.USER)).toEqual("Пользователь");
+    expect(getRoleName(Role.ADMIN)).toEqual("Admin");
+    expect(getRoleName(Role.SUPPORT)).toEqual("Support");
+    expect(getRoleName(Role.USER)).toEqual("User");
   });
 
   it("whether can see special content based on role", () => {

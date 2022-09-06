@@ -41,7 +41,7 @@ class RaceListComponent extends React.Component<RaceListProps> {
             ))}
           </Grid>
         ))
-        .orElse(<div>В данный момент у нас нет для вас новостей.</div>);
+        .orElse(<div>There is no news for you at the moment</div>);
     }
   }
 }

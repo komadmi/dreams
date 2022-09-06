@@ -74,14 +74,14 @@ const HeaderComponent: React.FC = () => {
         <ListItem
           id={LIST_ITEM_HOME_BUTTON}
           button
-          key={"Домой"}
+          key={"Home"}
           onClick={() => reRouteTo(DEFAULT)}
         >
           <ListItemIcon>
             <HomeIcon />
           </ListItemIcon>
           <ListItemText
-            primary={"Домой"}
+            primary={"Home"}
             primaryTypographyProps={{ id: LIST_ITEM_HOME_BUTTON + "_label" }}
           />
         </ListItem>
@@ -90,14 +90,14 @@ const HeaderComponent: React.FC = () => {
             <ListItem
               id={LIST_ITEM_ACCOUNT_BUTTON}
               button
-              key={"Профиль"}
+              key={"Profile"}
               onClick={() => reRouteTo(USER_PROFILE)}
             >
               <ListItemIcon>
                 <AccountCircle />
               </ListItemIcon>
               <ListItemText
-                primary={"Профиль"}
+                primary={"Profile"}
                 primaryTypographyProps={{ id: LIST_ITEM_ACCOUNT_BUTTON + "_label" }}
               />
             </ListItem>
@@ -106,14 +106,14 @@ const HeaderComponent: React.FC = () => {
             <ListItem
               id={LIST_ITEM_ENTER_BUTTON}
               button
-              key={"Войти"}
+              key={"Sign In"}
               onClick={() => reRouteTo(USER_SIGN_IN)}
             >
               <ListItemIcon>
                 <ExitToAppIcon />
               </ListItemIcon>
               <ListItemText
-                primary={"Войти"}
+                primary={"Sign In"}
                 primaryTypographyProps={{ id: LIST_ITEM_ENTER_BUTTON + "_label" }}
               />
             </ListItem>
@@ -163,7 +163,7 @@ const HeaderComponent: React.FC = () => {
                 color="inherit"
                 onClick={() => reRouteTo(USER_SIGN_IN)}
               >
-                Войти
+                Sign In
               </Button>
             )}
         </Toolbar>

@@ -89,7 +89,7 @@ const AdminRaceInfoComponent: React.FC<AdminRaceInfo> = (props: AdminRaceInfo) =
         id={ADMIN_RACE_INFO_EXPAND_BUTTON}
       >
         <Typography id={ADMIN_RACE_INFO_HEADER} className={classes.heading}>
-          Управление гонками
+          Race management
         </Typography>
       </ExpansionPanelSummary>
       <ExpansionPanelDetails>
@@ -100,7 +100,7 @@ const AdminRaceInfoComponent: React.FC<AdminRaceInfo> = (props: AdminRaceInfo) =
               <Grid item xs={7}>
                 <FormControl variant="outlined" className={classes.formControl}>
                   <InputLabel htmlFor={ADMIN_RACE_INFO_NAME_COMBO} ref={raceNameInputLabel}>
-                    Гонка
+                    Race
                   </InputLabel>
                   <Select
                     native
@@ -122,7 +122,7 @@ const AdminRaceInfoComponent: React.FC<AdminRaceInfo> = (props: AdminRaceInfo) =
               <Grid item xs={4}>
                 <FormControl variant="outlined" className={classes.formControl}>
                   <InputLabel htmlFor={ADMIN_RACE_INFO_STATE_COMBO} ref={raceStateInputLabel}>
-                    Состояние
+                    Status
                   </InputLabel>
                   <Select
                     native

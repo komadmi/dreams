@@ -28,14 +28,14 @@ import {
 } from "../../model/utils/constants";
 
 const emailSchema = Yup.string()
-  .email("Неверный формат почты")
-  .required("Введите пожалуйста почту");
+  .email("Incorrect mail format")
+  .required("Please, type the mail");
 const passwordSchema = Yup.string()
-  .min(5, "Пароль должен быть не менее 5-ти символов")
-  .required("Введите пожалуйста пароль");
+  .min(5, "Please, type at least 5 symbols")
+  .required("Please set up password");
 const nameSchema = Yup.string()
-  .min(2, "Имя должно быть не менее 2-х символов")
-  .required("Введите пожалуйста имя");
+  .min(2, "Please type at least 2 symbols")
+  .required("Please set up the name");
 
 const signInSchema = Yup.object().shape({
   email: emailSchema,
@@ -151,7 +151,7 @@ const UserAuthComponent: React.FC<UserAuthComponentProps> = (props: UserAuthComp
                 <LockOutlinedIcon />
               </Avatar>
               <Typography id={getID(AUTH_MODE_LABEL, props.mode)} component="h1" variant="h5">
-                {isSignInMode(props.mode) ? "Войти" : "Зарегистрироваться"}
+                {isSignInMode(props.mode) ? "Sign In" : "Sign Up"}
               </Typography>
               <Formik
                 initialValues={
@@ -175,11 +175,11 @@ const UserAuthComponent: React.FC<UserAuthComponentProps> = (props: UserAuthComp
                 {(formikBag: FormikProps<UserInfoValues>) => (
                   <Form className={classes.form}>
                     <Grid container spacing={2}>
-                      {renderField(formikBag, "email", "email", "Почта", getID(AUTH_EMAIL, props.mode))}
-                      {renderField(formikBag, "password", "password", "Пароль", getID(AUTH_PASSWORD, props.mode))}
+                      {renderField(formikBag, "email", "email", "Mail", getID(AUTH_EMAIL, props.mode))}
+                      {renderField(formikBag, "password", "password", "Password", getID(AUTH_PASSWORD, props.mode))}
 
                       {!isSignInMode(props.mode) &&
-                        renderField(formikBag, "name", "text", "Имя", getID(AUTH_NAME, props.mode))}
+                        renderField(formikBag, "name", "text", "Name", getID(AUTH_NAME, props.mode))}
                     </Grid>
 
                     <Button
@@ -190,7 +190,7 @@ const UserAuthComponent: React.FC<UserAuthComponentProps> = (props: UserAuthComp
                       color="primary"
                       className={classes.submit}
                     >
-                      {formikBag.isSubmitting ? "Идет прогрев мотора..." : "Дави на газ!!!"}
+                      {formikBag.isSubmitting ? "Checking the engine..." : "Come on!!!"}
                     </Button>
 
                     <Grid container justify="flex-end">
@@ -200,8 +200,8 @@ const UserAuthComponent: React.FC<UserAuthComponentProps> = (props: UserAuthComp
                           to={isSignInMode(props.mode) ? USER_SIGN_UP : USER_SIGN_IN}
                         >
                           {isSignInMode(props.mode)
-                            ? "Нет аккаунта? Создать"
-                            : "Есть аккаунт? Войти"}
+                            ? "There is no profile? Create"
+                            : "There is profile? Sign In"}
                         </Link>
                       </Grid>
                     </Grid>

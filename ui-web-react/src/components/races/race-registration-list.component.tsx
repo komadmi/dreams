@@ -84,7 +84,7 @@ const RaceRegistrationListComponent: React.FC<RaceRegistrationListProps> = (
         id={RACE_REGISTRATION_LIST_EXPAND_BUTTON}
       >
         <Typography id={RACE_REGISTRATION_LIST_HEADER} className={classes.heading}>
-          {props.disableReason.orElse("Регистрация")}
+          {props.disableReason.orElse("Registration")}
         </Typography>
       </ExpansionPanelSummary>
       <ExpansionPanelDetails>
@@ -120,7 +120,7 @@ const RaceRegistrationListComponent: React.FC<RaceRegistrationListProps> = (
           </List>
           <SpinnerButton
             id={RACE_REGISTRATION_LIST_SUBMIT_BUTTON}
-            label="Обновить"
+            label="Refresh"
             showSpinner={props.isUpdating}
             handleClick={handleUpdateButtonClick}
           />

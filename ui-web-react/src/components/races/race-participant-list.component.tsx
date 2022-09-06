@@ -43,15 +43,15 @@ const RaceParticipantListComponent: React.FC<RaceParticipantListProps> = (
         aria-controls="raceParticipants-content"
         id={RACE_PARTICIPANTS_LIST_EXPAND_BUTTON}
       >
-        <Typography className={classes.heading}>Участники</Typography>
+        <Typography className={classes.heading}>Participants</Typography>
       </ExpansionPanelSummary>
       <ExpansionPanelDetails>
         <Container component="main" maxWidth="xs" className={classes.profileContainer}>
           <Table id={RACE_PARTICIPANTS_LIST_TABLE}>
             <TableHead>
               <TableRow>
-                <TableCell>ФИО</TableCell>
-                <TableCell align="right">Номер байка</TableCell>
+                <TableCell>Name</TableCell>
+                <TableCell align="right">Bike number</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>

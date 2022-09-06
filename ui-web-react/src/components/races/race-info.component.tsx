@@ -117,18 +117,18 @@ class RaceInfoComponent extends React.Component<RaceInfoProps> {
   getDisableRegistrationReason = (): Optional<string> => {
     return Optional.ofNullable(
       this.props.raceItemExt.state !== RaceState.NOT_STARTED
-        ? "Регистрация закончена"
+        ? "Registration has been finished"
         : !this.props.user.isPresent()
-        ? "Войдите для регистрации"
+        ? "Please, login in for registration"
         : this.props.racerProfiles.isPresent()
         ? null
-        : "Создайте профиль для регистрации"
+        : "Please, create the profile for registration"
     );
   };
 
   getDesabledResultsReason = (): Optional<string> => {
     return Optional.ofNullable(
-      this.props.raceItemExt.state === RaceState.NOT_STARTED ? "Гонка не началась" : null
+      this.props.raceItemExt.state === RaceState.NOT_STARTED ? "Race has not been started yet" : null
     );
   };
 
